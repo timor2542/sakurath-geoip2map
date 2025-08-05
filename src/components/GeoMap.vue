@@ -29,9 +29,8 @@
       <button class="close-btn" @click="showInfo = false">×</button>
       <h3>
         Your GeoIP Location
-        <img :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag" style="margin-left: 6px;" />
       </h3>
-      <p><strong>Country:</strong> {{ location.country_name }}</p>
+      <p><strong>Country:</strong> {{ location.country_name }} <img :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag" style="margin-left: 6px;" /></p>
       <p><strong>Region:</strong> {{ location.region_name }}</p>
       <p><strong>City:</strong> {{ location.city_name }}</p>
       <p><strong>Zip Code:</strong> {{ location.zip_code }}</p>
