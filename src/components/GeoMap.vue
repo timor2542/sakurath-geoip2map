@@ -154,13 +154,6 @@ function initMap() {
 
 // Mounted
 onMounted(async () => {
-
-
-  const response = await fetch('https://ip.ip2location.io/?format=json')
-const data = await response.json()  // ไม่ต้อง JSON.parse เอง
-
-console.log(data.ip)
-
   applyTheme()
   initMap()
 
