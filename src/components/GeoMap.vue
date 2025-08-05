@@ -1,30 +1,53 @@
 <template>
   <div id="map-container" :class="{ dark: isDarkMode }">
     <div id="map" />
-    
-    <div class="logo-bottom">
-      <img src="../assets/logo.svg" alt="Logo" width="50" height="50" />
+
+    <!-- Theme toggle -->
+    <div class="theme-toggle">
+      <label :class="{ active: themeMode === 'light' }">
+        <input type="radio" value="light" v-model="themeMode" />
+        ☀️
+      </label>
+      <label :class="{ active: themeMode === 'dark' }">
+        <input type="radio" value="dark" v-model="themeMode" />
+        🌙
+      </label>
+      <label :class="{ active: themeMode === 'auto' }">
+        <input type="radio" value="auto" v-model="themeMode" />
+        🕒
+      </label>
     </div>
 
+    <div v-if="themeToast" class="theme-toast">Theme updated</div>
+
+    <div class="logo-bottom">
+      <img src="/logo.svg" alt="Logo" width="50" height="50" />
+    </div>
+
+    <!-- Info Box -->
     <div class="info-box" v-if="location && showInfo">
       <button class="close-btn" @click="showInfo = false">×</button>
-      <h3>Your Location</h3>
-      <p><strong>Country:</strong>&nbsp;{{ location.country_name }}&nbsp;<img
-          :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag"
-          style="vertical-align: middle; margin-left: 6px;" /></p>
-      <p><strong>Region:</strong>&nbsp;{{ location.region_name }}</p>
-      <p><strong>City:</strong>&nbsp;{{ location.city_name }}</p>
-      <p><strong>Zip Code:</strong>&nbsp;{{ location.zip_code }}</p>
-      <p><strong>IP:</strong>&nbsp;{{ location.ip }}</p>
+      <h3>
+        Your Location
+        <img :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag" style="margin-left: 6px;" />
+      </h3>
+      <p><strong>Country:</strong> {{ location.country_name }}</p>
+      <p><strong>Region:</strong> {{ location.region_name }}</p>
+      <p><strong>City:</strong> {{ location.city_name }}</p>
+      <p><strong>Zip Code:</strong> {{ location.zip_code }}</p>
+      <p><strong>IP:</strong> {{ location.ip }}</p>
       <button class="copy-btn" @click="copyIP">Copy IP</button>
     </div>
 
+    <!-- Reopen -->
     <button v-if="!showInfo && location" class="reopen-btn" @click="showInfo = true">
       Show Info
     </button>
 
+    <!-- Clock -->
     <div class="clock">{{ currentTime }}</div>
 
+    <!-- Footer -->
     <div class="footer-note">
       This website is for IP2Location Programming Contest 2025.
     </div>
@@ -32,15 +55,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import axios from 'axios'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// Remove default Leaflet icon
-delete L.Icon.Default.prototype._getIconUrl
-
-// Create red marker icon
+// Setup red icon for marker
 const redIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -50,11 +70,40 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41],
 })
 
+// State
 const location = ref(null)
 const showInfo = ref(true)
-const isDarkMode = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
-
+const isDarkMode = ref(false)
+const savedTheme = localStorage.getItem('themeMode') || 'auto'
+const themeMode = ref(savedTheme)
+const themeToast = ref(false)
 const currentTime = ref('')
+
+// Watch theme changes
+watch(themeMode, () => {
+  localStorage.setItem('themeMode', themeMode.value)
+  applyTheme()
+  initMap()
+  showToast()
+})
+
+// Toast function
+function showToast() {
+  themeToast.value = true
+  setTimeout(() => (themeToast.value = false), 1500)
+}
+
+// Auto theme detection
+function applyTheme() {
+  if (themeMode.value === 'auto') {
+    const hour = new Date().getHours()
+    isDarkMode.value = hour < 6 || hour >= 18
+  } else {
+    isDarkMode.value = themeMode.value === 'dark'
+  }
+}
+
+// Clock update
 function updateClock() {
   currentTime.value = new Date().toLocaleString()
 }
@@ -62,11 +111,7 @@ updateClock()
 const clockInterval = setInterval(updateClock, 1000)
 onUnmounted(() => clearInterval(clockInterval))
 
-function getFlag(code) {
-  if (!code) return ''
-  return code.toUpperCase().replace(/./g, c => String.fromCodePoint(c.charCodeAt(0) + 127397))
-}
-
+// Copy IP
 async function copyIP() {
   try {
     await navigator.clipboard.writeText(location.value.ip)
@@ -76,17 +121,41 @@ async function copyIP() {
   }
 }
 
-onMounted(async () => {
-  const map = L.map('map').setView([13.75, 100.5], 2)
-  const tileLayerUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+// Leaflet map
+let map
+let tileLayer
+function initMap() {
+  if (map) {
+    tileLayer && map.removeLayer(tileLayer)
+  } else {
+    map = L.map('map').setView([13.75, 100.5], 2)
+  }
 
-  L.tileLayer(tileLayerUrl, {
-    maxZoom: 18,
-    attribution: '&copy; Leaflet | &copy; OpenStreetMap contributors',
-  }).addTo(map)
+  tileLayer = L.tileLayer(
+    isDarkMode.value
+      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap contributors & Carto',
+    }
+  )
+  tileLayer.addTo(map)
+}
+
+// Mounted
+onMounted(async () => {
+  applyTheme()
+  initMap()
 
   try {
-    const geoRes = await axios.get('/api/ip2location')
+    const ipRes = await axios.get('https://api64.ipify.org?format=json')
+    const clientIP = ipRes.data.ip
+
+    const geoRes = await axios.get('/api/ip2location', {
+      params: { ip: clientIP },
+    })
+
     const data = geoRes.data
     location.value = data
 
@@ -252,5 +321,36 @@ body,
 .dark .footer-note {
   background: rgba(0, 0, 0, 0.75);
   color: #eee;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: flex;
+  gap: 10px;
+  font-size: 1.2rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+.theme-toggle input {
+  display: none;
+}
+.theme-toggle label {
+  cursor: pointer;
+  opacity: 0.35;
+  transition: 0.2s;
+}
+.theme-toggle label.active {
+  opacity: 1;
+  transform: scale(1.5);
+}
+.dark .theme-toggle {
+  background: rgba(34, 34, 34, 0.85);
+  color: white;
 }
 </style>
