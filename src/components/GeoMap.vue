@@ -49,7 +49,7 @@
     <div class="clock">{{ currentTime }}</div>
 
     <div class="map-note-bottom-right">
-      It uses your IP address retrieved via ipify.org,<br />
+      It uses your IP address retrieved<br />
       and sends it to the IP2Location API to estimate<br />
       your approximate location based on public IP.<br />
       Country-level detection is highly accurate,<br />
@@ -158,12 +158,10 @@ onMounted(async () => {
   initMap()
 
   try {
-    const ipRes = await axios.get('https://ip.ip2location.io?format=json')
-    const clientIP = ipRes.data.ip
+    const ipRes = await axios.get('/api/get-ip')
+    const ip = ipRes.data.ip
 
-    const geoRes = await axios.get('/api/ip2location', {
-      params: { ip: clientIP },
-    })
+    const geoRes = await axios.get(`/api/ip2location?ip=${ip}`)
 
     const data = geoRes.data
     location.value = data
