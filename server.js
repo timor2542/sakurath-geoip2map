@@ -1,8 +1,8 @@
-import express from "express";
-import fetch from "node-fetch";
-import cors from "cors";
+import express from 'express';
+import axios from 'axios';
+import cors from 'cors';
+const PORT = process.env.PORT || 3000
 
-const app = express();
 app.use(cors());
 
 app.get("/api/ip", async (req, res) => {
@@ -15,7 +15,22 @@ app.get("/api/ip", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+app.get('/api/ip2location', async (req, res) => {
+    try {
+      const { ip } = req.query
+      const response = await axios.get('https://api.ip2location.io', {
+        params: {
+          key: '46BEA0336C594E84ADDDBFCCA38AB0B0',
+          format: 'json',
+          ip,
+        },
+      })
+      res.json(response.data)
+    } catch (error) {
+      res.status(500).json({ error: error.message })
+    }
+  })
+
 app.listen(PORT, () => {
   console.log(`Proxy server running on port ${PORT}`);
 });
