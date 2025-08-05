@@ -5,16 +5,6 @@ const PORT = process.env.PORT || 3000
 
 app.use(cors());
 
-app.get("/api/ip", async (req, res) => {
-    try {
-        const response = await axios.get('https://ip.ip2location.io/?format=json')
-        const data = await response.json()
-        res.status(200).json(data)
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch IP' })
-    }
-});
-
 app.get('/api/ip2location', async (req, res) => {
     const { ip } = req.query
 

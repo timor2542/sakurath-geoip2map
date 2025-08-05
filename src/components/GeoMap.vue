@@ -154,14 +154,18 @@ function initMap() {
 
 // Mounted
 onMounted(async () => {
+
+
+  const response = await fetch('https://ip.ip2location.io/?format=json')
+const data = await response.json()  // ไม่ต้อง JSON.parse เอง
+
+console.log(data.ip)
+
   applyTheme()
   initMap()
 
   try {
-    const ipRes = await axios.get('/api/get-ip')
-    const ip = ipRes.data.ip
-
-    const geoRes = await axios.get(`/api/ip2location?ip=${ip}`)
+    const geoRes = await axios.get('/api/ip2location')
 
     const data = geoRes.data
     location.value = data
