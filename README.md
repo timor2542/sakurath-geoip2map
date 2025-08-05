@@ -42,4 +42,4 @@ git clone https://github.com/timor2542/sakurath-geoip2map.git
 cd sakurath-geoip2map
 
 npm install
-npm run dev
+npm run dev2
