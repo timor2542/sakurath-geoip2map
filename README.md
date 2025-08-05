@@ -10,7 +10,7 @@ This is a fully functional web application built for the [IP2Location Programmin
 - 📍 Query location details from [IP2Location.io](https://www.ip2location.io/)
 - 🗺️ Display user’s geolocation on interactive map (Leaflet)
 - 🎨 Toggle theme (Light / Dark / Auto by time)
-- 🇺🇸 Country flag, IP info, location UI, responsive design
+- Country flag, IP info, location UI, responsive design
 - ⏰ Real-time clock, "Copy IP", and flag-based location display
 - 🧩 Uses Vercel Serverless API to bypass CORS
 
@@ -18,7 +18,7 @@ This is a fully functional web application built for the [IP2Location Programmin
 
 ## 🚀 Live Demo
 
-🔗 [https://your-vercel-project.vercel.app](https://your-vercel-project.vercel.app)
+🔗 [https://sakurath-geoip2map.vercel.app/](https://sakurath-geoip2map.vercel.app/)
 
 > ✅ Works on both desktop and mobile devices.
 
