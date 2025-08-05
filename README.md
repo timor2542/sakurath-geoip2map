@@ -16,7 +16,7 @@ This is a fully functional web application built for the [IP2Location Programmin
 
 ---
 
-> ⚠️ Note: While country-level detection is highly accurate, subnational details such as city, region, or coordinates may vary depending on the user's ISP, VPN, or network configuration.
+> ⚠️ Note: While country-level detection is highly accurate, subnational details such as city, region, or coordinates may vary depending on the user's ISP, VPN, or network configuration. It uses IP address geolocation (GeoIP) via IP2Location API, which estimates your approximate location based on public IP.
 
 ---
 ## 🚀 Live Demo
