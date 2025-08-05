@@ -46,3 +46,24 @@ cd sakurath-geoip2map
 
 npm install
 npm run dev2
+
+---
+## 🌍 Why GeoIP is Accurate at Country Level
+
+IP-based geolocation (GeoIP) is highly accurate for determining a user's **country** because:
+
+1. **IP address blocks are allocated by region/country**  
+   Internet IP ranges are distributed by global authorities (IANA, RIRs) to countries or ISPs within those countries. This makes it possible to map an IP to a specific country with high confidence.
+
+2. **GeoIP databases are continuously updated**  
+   Services like IP2Location maintain extensive databases that are regularly updated using information from:
+   - Regional Internet Registries (RIRs)
+   - WHOIS records
+   - BGP routing tables
+   - ISP reports
+
+3. **Network infrastructure reflects national boundaries**  
+   Even for mobile or VPN users, the exit nodes and IP blocks still usually reflect the actual country.
+
+> ✅ As a result, country-level detection with IP geolocation is generally **98% or more accurate**, making it highly reliable for country-specific applications like regional targeting, analytics, or content control.
+---
