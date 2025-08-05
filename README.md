@@ -40,13 +40,12 @@ This is a fully functional web application built for the [IP2Location Programmin
 
 ## ⚙️ Local Development
 
-```
+```bash
 git clone https://github.com/timor2542/sakurath-geoip2map.git
 cd sakurath-geoip2map
 
 npm install
 npm run dev2
-
 ```
 
 ---
