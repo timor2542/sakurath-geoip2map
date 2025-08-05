@@ -1,0 +1,5 @@
+{
+    "rewrites": [
+      { "source": "/api/:match*", "destination": "/api/ip2location.js" }
+    ]
+  }
