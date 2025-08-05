@@ -1,14 +1,12 @@
 import axios from 'axios'
 
 export default async function handler(req, res) {
-  const { ip } = req.query
 
   try {
     const response = await axios.get('https://api.ip2location.io', {
       params: {
         key: '46BEA0336C594E84ADDDBFCCA38AB0B0',
         format: 'json',
-        ip,
       },
     })
     res.status(200).json(response.data)
