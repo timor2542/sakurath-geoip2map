@@ -158,7 +158,7 @@ onMounted(async () => {
   initMap()
 
   try {
-    const ipRes = await axios.get('https://ip.ip2location.io/')
+    const ipRes = await axios.get('https://ip.ip2location.io?format=json')
     const clientIP = ipRes.data.ip
 
     const geoRes = await axios.get('/api/ip2location', {
