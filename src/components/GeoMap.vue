@@ -30,7 +30,9 @@
       <h3>
         Your GeoIP Location
       </h3>
-      <p><strong>Country:</strong> {{ location.country_name }} <img :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag" style="margin-left: 6px;" /></p>
+      <p><strong>Country:</strong> {{ location.country_name }} <img
+          :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag" style="margin-left: 6px;" />
+      </p>
       <p><strong>Region:</strong> {{ location.region_name }}</p>
       <p><strong>City:</strong> {{ location.city_name }}</p>
       <p><strong>Zip Code:</strong> {{ location.zip_code }}</p>
@@ -45,6 +47,14 @@
 
     <!-- Clock -->
     <div class="clock">{{ currentTime }}</div>
+
+    <div class="map-note-bottom-right">
+      It uses your IP address retrieved via ipify.org,<br />
+      and sends it to the IP2Location API to estimate<br />
+      your approximate location based on public IP.<br />
+      Country-level detection is highly accurate,<br />
+      but GPS-like precision is not intended.
+    </div>
 
     <!-- Footer -->
     <div class="footer-note">
@@ -307,7 +317,7 @@ body,
   bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   background: rgba(255, 255, 255, 0.85);
   color: #333;
   padding: 4px 12px;
@@ -328,28 +338,52 @@ body,
   left: 50%;
   transform: translateX(-50%);
   z-index: 1001;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 999px;
   padding: 6px 12px;
   display: flex;
   gap: 10px;
   font-size: 1.2rem;
-  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
 .theme-toggle input {
   display: none;
 }
+
 .theme-toggle label {
   cursor: pointer;
   opacity: 0.35;
   transition: 0.2s;
 }
+
 .theme-toggle label.active {
   opacity: 1;
   transform: scale(1.5);
 }
+
 .dark .theme-toggle {
   background: rgba(34, 34, 34, 0.85);
+  color: white;
+}
+
+.map-note-bottom-right {
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.55rem;
+  max-width: 280px;
+  line-height: 1.4;
+  z-index: 1001;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+.dark .map-note-bottom-right {
+  background: rgba(20, 20, 20, 0.8);
   color: white;
 }
 </style>
