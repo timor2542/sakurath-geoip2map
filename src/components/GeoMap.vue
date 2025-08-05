@@ -159,7 +159,7 @@ onMounted(async () => {
 
   try {
     const geoRes = await axios.get('/api/ip2location')
-
+    console.log(geoRes.data)
     const data = geoRes.data
     location.value = data
 
