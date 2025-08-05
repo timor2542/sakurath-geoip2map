@@ -28,7 +28,7 @@
     <div class="info-box" v-if="location && showInfo">
       <button class="close-btn" @click="showInfo = false">×</button>
       <h3>
-        Your Location
+        Your GeoIP Location
         <img :src="`https://flagsapi.com/${location.country_code}/shiny/24.png`" alt="flag" style="margin-left: 6px;" />
       </h3>
       <p><strong>Country:</strong> {{ location.country_name }}</p>
