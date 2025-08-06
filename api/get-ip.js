@@ -1,12 +1,10 @@
 export default async function handler(req, res) {
     try {
-      const response = await fetch('https://ip.ip2location.io/')
-      const text = await response.text()
-      const data = JSON.parse(text) // เนื่องจาก API ส่ง text/plain
-  
-      res.status(200).json(data)
+      const response = await fetch("https://ip.ip2location.io/");
+      const textData = await response.text(); // ดึงเป็น text
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.status(200).send(textData);
     } catch (error) {
-      console.error('Failed to fetch IP:', error)
-      res.status(500).json({ error: 'Failed to fetch IP' })
+      res.status(500).json({ error: "Error fetching IP" });
     }
   }
