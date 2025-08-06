@@ -157,8 +157,8 @@ onMounted(async () => {
   applyTheme()
   try{
 
-    const res = await fetch('/api/get-ip')
-    const ip = await res.json()
+    const res = await axios.get('/api/get-ip')
+    const ip = await res.data
     // ✅ 2. Use IP to query IP2Location
     const geoRes = await axios.get(`/api/ip2location?ip=${ip}`)
     location.value = geoRes.data

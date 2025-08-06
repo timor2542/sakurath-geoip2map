@@ -1,14 +1,14 @@
-import axios from 'axios'
+// /api/get-ip.js
+import axios from "axios";
 
 export default async function handler(req, res) {
   try {
-    const response = await fetch('https://ip.ip2location.io/')
-    const text = await response.text()
-    const data = JSON.parse(text)
+    const response = await axios.get("https://ip.ip2location.io/");
+    const ip = response.data; // axios แปลง plain text เป็น string ให้เลย
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.status(200).json(data)
+    res.status(200).send(ip);
   } catch (error) {
-    console.error('Failed to fetch IP:', error)
-    res.status(500).json({ error: 'Failed to fetch IP' })
+    console.error(error);
+    res.status(500).send("Error fetching IP");
   }
 }
