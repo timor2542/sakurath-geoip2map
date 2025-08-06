@@ -1,4 +1,3 @@
-import axios from 'axios';
 export default async function handler(req, res) {
   const { ip } = req.query
   const apiKey = '46BEA0336C594E84ADDDBFCCA38AB0B0' // ← เปลี่ยนเป็นของคุณเอง
