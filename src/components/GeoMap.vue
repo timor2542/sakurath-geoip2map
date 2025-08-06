@@ -158,16 +158,14 @@ onMounted(async () => {
   initMap()
 
   try {
-    // ✅ 1. Get IP from backend
-    const ipRes = await axios.get('/api/get-ip')
-    const ip = ipRes.data.ip
-
+    const response = await fetch("https://ip.ip2location.io/"); // <-- Response ของ fetch()
+    const ip = await response.text(); 
     // ✅ 2. Use IP to query IP2Location
     const geoRes = await axios.get(`/api/ip2location?ip=${ip}`)
     location.value = geoRes.data
 
-    const lat = parseFloat(data.latitude)
-    const lon = parseFloat(data.longitude)
+    const lat = parseFloat(location.value.latitude)
+    const lon = parseFloat(location.value.longitude)
 
     L.marker([lat, lon], { icon: redIcon })
       .addTo(map)
