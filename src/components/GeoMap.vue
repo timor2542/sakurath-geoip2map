@@ -155,14 +155,18 @@ function initMap() {
 // Mounted
 onMounted(async () => {
   applyTheme()
-  initMap()
+  try{
 
-  try {
     const response = await fetch("https://ip.ip2location.io/"); // <-- Response ของ fetch()
     const ip = await response.text(); 
     // ✅ 2. Use IP to query IP2Location
     const geoRes = await axios.get(`/api/ip2location?ip=${ip}`)
     location.value = geoRes.data
+  }
+  catch (error) {
+    console.error('GeoIP error:', error)
+  }
+  initMap()
 
     const lat = parseFloat(location.value.latitude)
     const lon = parseFloat(location.value.longitude)
@@ -174,9 +178,6 @@ onMounted(async () => {
 
     map.setView([lat, lon], 10)
     setTimeout(() => map.invalidateSize(), 200)
-  } catch (error) {
-    console.error('GeoIP error:', error)
-  }
 })
 </script>
 
