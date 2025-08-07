@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function handler(event, context) {
-  const API_KEY = process.env.IP2LOCATION_KEY
+  const API_KEY = "46BEA0336C594E84ADDDBFCCA38AB0B0"
   const url = `https://api.ip2location.io/?key=${API_KEY}&format=json`
 
   try {
