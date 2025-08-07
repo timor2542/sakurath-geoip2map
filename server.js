@@ -1,5 +1,3 @@
-import express from 'express';
-import axios from 'axios';
 import cors from 'cors';
 const PORT = process.env.PORT || 3000
 

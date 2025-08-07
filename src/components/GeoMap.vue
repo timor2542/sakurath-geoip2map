@@ -157,7 +157,7 @@ onMounted(async () => {
   applyTheme()
   initMap()
   try {
-    const geoRes = await axios.get('/api/ip2location')
+    const geoRes = await axios.get('/.netlify/functions/ip')
 
     const data = geoRes.data
     location.value = data
