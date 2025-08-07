@@ -155,21 +155,15 @@ function initMap() {
 // Mounted
 onMounted(async () => {
   applyTheme()
-  try{
-
-    const res = await axios.get('/api/get-ip')
-    const ip = await res.data
-    // ✅ 2. Use IP to query IP2Location
-    const geoRes = await axios.get(`/api/ip2location?ip=${ip}`)
-    location.value = geoRes.data
-  }
-  catch (error) {
-    console.error('GeoIP error:', error)
-  }
   initMap()
+  try {
+    const geoRes = await axios.get('/api/ip2location')
 
-    const lat = parseFloat(location.value.latitude)
-    const lon = parseFloat(location.value.longitude)
+    const data = geoRes.data
+    location.value = data
+
+    const lat = parseFloat(data.latitude)
+    const lon = parseFloat(data.longitude)
 
     L.marker([lat, lon], { icon: redIcon })
       .addTo(map)
@@ -178,6 +172,9 @@ onMounted(async () => {
 
     map.setView([lat, lon], 10)
     setTimeout(() => map.invalidateSize(), 200)
+  } catch (error) {
+    console.error('GeoIP error:', error)
+  }
 })
 </script>
 
