@@ -6,13 +6,12 @@ This is a fully functional web application built for the [IP2Location Programmin
 
 ## ✨ Features
 
-- 🌐 Get client IP via [ipify.org](https://www.ipify.org/)
 - 📍 Query location details from [IP2Location.io](https://www.ip2location.io/)
 - 🗺️ Display user’s geolocation on interactive map (Leaflet)
 - 🎨 Toggle theme (Light / Dark / Auto by time)
 - Country flag, IP info, location UI, responsive design
 - ⏰ Real-time clock, "Copy IP", and flag-based location display
-- 🧩 Uses Vercel Serverless API to bypass CORS
+- 🧩 Uses Netlify Serverless API Function
 
 ---
 
@@ -21,7 +20,7 @@ This is a fully functional web application built for the [IP2Location Programmin
 ---
 ## 🚀 Live Demo
 
-🔗 [https://sakurath-geoip2map.vercel.app/](https://sakurath-geoip2map.vercel.app/)
+🔗 [https://sakurath-geoip2map.netlify.app/](https://sakurath-geoip2map.netlify.app/)
 
 > ✅ Works on both desktop and mobile devices.
 
@@ -33,8 +32,7 @@ This is a fully functional web application built for the [IP2Location Programmin
 - [Vite](https://vitejs.dev/)
 - [Leaflet.js](https://leafletjs.com/)
 - [IP2Location.io API](https://ip2location.io/)
-- [ipify.org](https://www.ipify.org/)
-- [Vercel](https://vercel.com/)
+- [Netlify](https://www.netlify.com/)
 
 ---
 
