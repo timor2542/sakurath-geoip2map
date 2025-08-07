@@ -49,11 +49,11 @@
     <div class="clock">{{ currentTime }}</div>
 
     <div class="map-note-bottom-right">
-      It uses your IP address retrieved<br />
-      and sends it to the IP2Location API to estimate<br />
-      your approximate location based on public IP.<br />
-      Country-level detection is highly accurate,<br />
-      but GPS-like precision is not intended.
+      Your IP address is retrieved <br/>
+      and sent to the IP2Location API <br/>
+      to estimate your approximate location. <br/>
+      While country-level detection is highly accurate, <br/>
+      GPS-level precision is not intended. <br/>
     </div>
 
     <!-- Footer -->
