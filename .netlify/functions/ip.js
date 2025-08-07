@@ -1,13 +1,11 @@
-const axios = require('axios');
+const axios = require('axios')
 
 exports.handler = async function (event, context) {
-  try {
-    const API_KEY = process.env.IP2LOCATION_KEY;
-    if (!API_KEY) {
-      throw new Error('Missing API Key: IP2LOCATION_KEY');
-    }
+  const API_KEY = process.env.IP2LOCATION_KEY
+  const ipFromHeader = event.headers['x-forwarded-for']?.split(',')[0]
 
-    const response = await axios.get(`https://api.ip2location.io/?key=${API_KEY}&format=json`);
+  try {
+    const response = await axios.get(`https://api.ip2location.io/?key=${API_KEY}&ip=${ipFromHeader}&format=json`)
 
     return {
       statusCode: 200,
@@ -16,14 +14,15 @@ exports.handler = async function (event, context) {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(response.data),
-    };
+    }
   } catch (err) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: 'Function failed',
+        error: 'IP lookup failed',
         message: err.message,
+        debug_ip: ipFromHeader
       }),
-    };
+    }
   }
-};
+}
